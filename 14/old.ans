@@ -1,0 +1,8 @@
+{ name: 'Donner',
+  speed: 9,
+  endurance: 5,
+  rest: 38,
+  isFlying: false,
+  flyTill: 2499,
+  restTill: 2537,
+  at: 2664 }
