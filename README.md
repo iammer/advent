@@ -1,5 +1,5 @@
-## Advent of Code 2015 ##
+## Advent of Code ##
 
-My Avent of Code 2015 Puzzles and Solutions
+My Avent of Code Puzzles and Solutions
 
 (http://adventofcode.com)
