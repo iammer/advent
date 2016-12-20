@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const itemsRequired = 10;
+const itemsRequired = 14;
 const initial = {
     previous: false,
     steps: 0,
@@ -95,7 +95,7 @@ const initial = {
 };
 */
 
-const previousStates = new Set();
+const previousStates = Object.create(null);
 let stateQueue = [initial];
 
 function shorten(state) {
@@ -162,6 +162,7 @@ function isFloorValid(floor) {
     }
 
     const microchips = getType(floor, 'microchip');
+    const genSet = new Set(generators);
 
     for (let microchip of microchips) {
         if (!generators.includes(microchip)) {
@@ -197,7 +198,7 @@ function isStateSame(a,b) {
 }
 
 function alreadyChecked(state) {
-    return previousStates.has(shorten(state));
+    return previousStates[shorten(state)];
 }
 
 function isSolution(state) {
@@ -246,10 +247,12 @@ while (stateQueue.length > 0) {
         console.log(`Solution in ${countSteps(state)}`);
     }
 
-    possibleChildren(state).filter(isStateValid).filter(s => !alreadyChecked(s)).forEach(s => {
-        stateQueue.push(s);
-        previousStates.add(shorten(s));
-    });
+    for (let childState of possibleChildren(state)) {
+        if (isStateValid(childState) && !alreadyChecked(childState)) {
+            stateQueue.push(childState);
+            previousStates[shorten(childState)] = true;
+        }
+    }
 
     statesChecked++;
     if (statesChecked % 1000 === 0) {
