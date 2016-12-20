@@ -268,7 +268,7 @@ while (stateQueue.length > 0) {
 
     statesChecked++;
     if (statesChecked % 1000 === 0) {
-        console.log(`States Checked: ${statesChecked}, State Queue: ${stateQueue.length}, previousStates: ${previousStates.size}, steps: ${state.steps}`);
+        console.log(`States Checked: ${statesChecked}, State Queue: ${stateQueue.length}, steps: ${state.steps}`);
     }
 
 }
