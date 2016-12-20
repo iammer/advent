@@ -7,34 +7,60 @@ const initial = {
     elevator: 0,
     floors: [
         [{
+            code: 'PG',
             material: 'polonium',
             type: 'generator'
         }, {
+            code: 'TG',
             material: 'thulium',
             type: 'generator'
         }, {
+            code: 'TM',
             material: 'thulium',
             type: 'microchip'
         }, {
+            code: 'MG',
             material: 'promethium',
             type: 'generator'
         }, {
+            code: 'RG',
             material: 'ruthenium',
             type: 'generator'
         }, {
+            code: 'RM',
             material: 'ruthenium',
             type: 'microchip'
         }, {
+            code: 'CG',
             material: 'cobalt',
             type: 'generator'
         }, {
+            code: 'CM',
             material: 'cobalt',
             type: 'microchip'
+        }, {
+            code: 'EM',
+            material: 'elerium',
+            type: 'microchip'
+        }, {
+            code: 'EG',
+            material: 'elerium',
+            type: 'generator'
+        }, {
+            code: 'DM',
+            material: 'dilithium',
+            type: 'microchip'
+        }, {
+            code: 'DG',
+            material: 'dilithium',
+            type: 'generator'
 
         }], [{
+            code: 'PM',
             material: 'polonium',
             type: 'microchip'
         }, {
+            code: 'MM',
             material: 'promethium',
             type: 'microchip'
 
@@ -69,8 +95,12 @@ const initial = {
 };
 */
 
-const previousStates = [];
+const previousStates = new Set();
 let stateQueue = [initial];
+
+function shorten(state) {
+    return state.floors.map(floor => floor.map(i => i.code).sort().join('')).join('|') + ':' + state.elevator;
+}
 
 function possibleChildren(state) {
     const possibleItems = getPossibleItems(state.floors[state.elevator]);
@@ -167,7 +197,7 @@ function isStateSame(a,b) {
 }
 
 function alreadyChecked(state) {
-    return previousStates.some(s => isStateSame(s,state));
+    return previousStates.has(shorten(state));
 }
 
 function isSolution(state) {
@@ -218,12 +248,12 @@ while (stateQueue.length > 0) {
 
     possibleChildren(state).filter(isStateValid).filter(s => !alreadyChecked(s)).forEach(s => {
         stateQueue.push(s);
-        previousStates.push(s);
+        previousStates.add(shorten(s));
     });
 
     statesChecked++;
     if (statesChecked % 1000 === 0) {
-        console.log(`States Checked: ${statesChecked}, State Queue: ${stateQueue.length}, previousStates: ${previousStates.length}, steps: ${state.steps}`);
+        console.log(`States Checked: ${statesChecked}, State Queue: ${stateQueue.length}, previousStates: ${previousStates.size}, steps: ${state.steps}`);
     }
 
 }
