@@ -129,12 +129,24 @@ function possibleChildren(state) {
 }
 
 function getPossibleElevators(state) {
+    const emptyBelow = true;
+    let i=state.elevator-1;
+    while(emptyBelow && i >=0 ) {
+        if (state.floors[i].length !== 0) {
+            emptyBelow = false;
+        }
+        i--;
+    }
     if (state.elevator === 0) {
         return [1];
     } else if (state.elevator === 3) {
         return [2];
     } else {
-        return [state.elevator - 1, state.elevator + 1];
+        if (emptyBelow) {
+            return [state.elevator + 1];
+        } else {
+            return [state.elevator - 1, state.elevator + 1];
+        }
     }
 }
 
